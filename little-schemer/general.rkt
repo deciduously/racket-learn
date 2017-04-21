@@ -85,3 +85,41 @@
       ((null? lat) (quote ()))
       ((eq? (car lat) old) (cons new (multisubst new old (cdr lat))))
       (else (cons (car lat) (multisubst new old (cdr lat)))))))
+
+(define add1
+  (λ (n)
+    (+ n 1)))
+
+(define sub1
+  (λ (n)
+    (- n 1)))
+
+(define o+
+  (λ (m n)
+    (cond
+      ((zero? n) m)
+      (else (o+ (add1 m) (sub1 n)))))) ; the book says (add1 (o+ x) (sub1 y)) but addition is associative, right?
+
+(define o-
+  (λ (m n)
+    (cond
+      ((zero? n) m)
+      (else (o- (sub1 m) (sub1 n))))))
+
+(define addtup
+  (λ (tup)
+    (cond
+      ((null? tup) 0)
+      (else (o+ (car tup) (addtup (cdr tup)))))))
+
+(define o*
+  (λ (m n)
+    (cond
+      ((zero? n) 0)
+      (else (o+ n (o* n (sub1 m)))))))
+
+(define tup+
+  (λ (tup1 tup2)
+    (cond
+      ((and (null? tup1) (null? tup2)) (quote ()))
+      (else (cons (o+ (car tup1) (car tup2)) (tup+ (cdr tup1) (cdr tup2)))))))
