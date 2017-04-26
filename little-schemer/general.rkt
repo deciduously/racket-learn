@@ -123,3 +123,30 @@
     (cond
       ((and (null? tup1) (null? tup2)) (quote ()))
       (else (cons (o+ (car tup1) (car tup2)) (tup+ (cdr tup1) (cdr tup2)))))))
+
+(define o>
+  (λ (n m)
+    (cond
+      ((zero? n) #f)
+      ((zero? m) #t)
+      (else (o> (sub1 n) (sub1 m))))))
+
+(define o<
+  (λ (n m)
+    (cond
+      ((zero? m) #f)
+      ((zero? n) #t)
+      (else (o< (sub1 n) (sub1 m))))))
+
+(define o=
+  (λ (n m)
+    (cond
+      ((o> m n) #f)
+      ((o< m n) #f)
+      (else #t))))
+
+(define oexpt
+  (λ (n m)
+    (cond
+      ((zero? m) 1)
+      (else (o* n (oexpt n (sub1 m)))))))
