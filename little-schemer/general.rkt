@@ -150,3 +150,72 @@
     (cond
       ((zero? m) 1)
       (else (o* n (oexpt n (sub1 m)))))))
+
+(define o/
+  (λ (n m)
+    (cond
+      ((o< n m) 0)
+      (else (add1 (o/ (o- n m) m))))))
+
+(define length
+  (λ (lat)
+    (cond
+      ((empty? lat) 0)
+      (else (add1 (length (cdr lat)))))))
+
+
+(define pick
+  (λ (n lat)
+    (cond
+      ((zero? (sub1 n)) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+
+(define rempick
+  (λ (n lat)
+    (cond
+      ((zero? (sub1 n)) (cdr lat))
+      (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+
+(define no-nums
+  (λ (lat)
+    (cond
+      ((null? lat) '())
+      (else
+       (cond
+         ((number? (car lat)) (no-nums (cdr lat)))
+         (else (cons (car lat) (no-nums (cdr lat)))))))))
+
+(define all-nums
+  (λ (lat)
+    (cond
+      ((null? lat) '())
+      (else
+       (cond
+         ((number? (car lat)) (cons (car lat) (all-nums (cdr lat))))
+         (else (all-nums (cdr lat))))))))
+
+(define eqan?
+  (λ (a1 a2)
+    (cond
+      ((and (number? a1) (number? a2))
+       (o= a1 a2)) ; book includes a second "or" clause - unnecessary?
+      (else (eq? a1 a2)))))
+
+(define occur
+  (λ (a lat)
+    (cond
+      ((null? lat) 0)
+      (else
+       (cond
+         ((eqan? a (car lat)) (add1 (occur a (cdr lat))))
+         (else (occur a (cdr lat))))))))
+
+(define one?
+  (λ (n)
+    (o= n 1)))
+
+(define rempickalt
+  (λ (n lat)
+    (cond
+      ((one? n) (cdr lat))
+      (else (cons (car lat) (rempickalt (sub1 n) (cdr lat)))))))
