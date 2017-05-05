@@ -312,4 +312,4 @@
     (cond
       ((null? l) '())
       ((oequal? (car l) s) (cdr l))
-      (else (cons (car l) (rember s (cdr l)))))))
+      (else (cons (car l) (newrember s (cdr l)))))))
